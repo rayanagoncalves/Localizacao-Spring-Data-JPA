@@ -14,7 +14,9 @@ class LocalizacaoApplication(private val cityRepository: CityRepository) {
 	@Bean
 	fun init(): CommandLineRunner {
 		return CommandLineRunner {
-			getCities()
+		//	getCities()
+			getCitiesByName()
+		//	getCitiesByPopulation()
 		}
 	}
 
@@ -26,6 +28,14 @@ class LocalizacaoApplication(private val cityRepository: CityRepository) {
 
 	fun getCities() {
 		cityRepository.findAll().forEach { println("Cidade: ${it.name}-${it.population}") }
+	}
+
+	fun getCitiesByName() {
+		cityRepository.findByNameStartingWith("Porto").forEach { println("Cidade: ${it.name}-${it.population}") }
+	}
+
+	fun getCitiesByPopulation() {
+		cityRepository.findByPopulation(49585L).forEach { println("Cidade: ${it.name}-${it.population}") }
 	}
 }
 
