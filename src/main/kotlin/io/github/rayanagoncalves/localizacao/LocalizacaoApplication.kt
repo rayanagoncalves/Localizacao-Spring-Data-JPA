@@ -14,7 +14,6 @@ class LocalizacaoApplication(private val cityRepository: CityRepository) {
 	@Bean
 	fun init(): CommandLineRunner {
 		return CommandLineRunner {
-			saveCity()
 			getCities()
 		}
 	}
@@ -26,7 +25,7 @@ class LocalizacaoApplication(private val cityRepository: CityRepository) {
 	}
 
 	fun getCities() {
-		cityRepository.findAll().forEach { println("${it.name}-${it.population}") }
+		cityRepository.findAll().forEach { println("Cidade: ${it.name}-${it.population}") }
 	}
 }
 
