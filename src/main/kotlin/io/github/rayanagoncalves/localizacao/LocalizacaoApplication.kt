@@ -31,7 +31,7 @@ class LocalizacaoApplication(private val cityRepository: CityRepository) {
 	}
 
 	fun getCitiesByName() {
-		cityRepository.findByNameStartingWith("Porto").forEach { println("Cidade: ${it.name}-${it.population}") }
+		cityRepository.findByNameLike("%fe").forEach { println("Cidade: ${it.name}-${it.population}") }
 	}
 
 	fun getCitiesByPopulation() {

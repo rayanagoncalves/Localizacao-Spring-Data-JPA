@@ -2,6 +2,7 @@ package io.github.rayanagoncalves.localizacao.repositories
 
 import io.github.rayanagoncalves.localizacao.domain.entities.City
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.Query
 
 interface CityRepository: JpaRepository<City, Long> {
 
@@ -12,6 +13,9 @@ interface CityRepository: JpaRepository<City, Long> {
     fun findByNameEndingWith(name: String): List<City>
 
     fun findByNameContaining(name: String): List<City>
+
+    @Query("select c from City where upper(c.name) like upper(?1)")
+    fun findByNameLike(name: String): List<City>
 
     fun findByPopulation(population: Long): List<City>
 }
