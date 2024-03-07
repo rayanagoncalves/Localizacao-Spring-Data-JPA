@@ -2,6 +2,7 @@ package io.github.rayanagoncalves.localizacao.services
 
 import io.github.rayanagoncalves.localizacao.domain.entities.City
 import io.github.rayanagoncalves.localizacao.repositories.CityRepository
+import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -20,7 +21,8 @@ class CityService(
     }
 
     fun getCitiesByName() {
-        cityRepository.findByNameLike("%fe").forEach { println("Cidade: ${it.name}-${it.population}") }
+        val pageable = PageRequest.of(0, 10)
+        cityRepository.findByNameLike("%fe", pageable).forEach { println("Cidade: ${it.name}-${it.population}") }
     }
 
     fun getCitiesByPopulation() {

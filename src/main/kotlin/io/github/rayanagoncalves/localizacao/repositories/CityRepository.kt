@@ -1,6 +1,8 @@
 package io.github.rayanagoncalves.localizacao.repositories
 
 import io.github.rayanagoncalves.localizacao.domain.entities.City
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
@@ -15,7 +17,7 @@ interface CityRepository: JpaRepository<City, Long> {
     fun findByNameContaining(name: String): List<City>
 
     @Query("select c from City c where upper(c.name) like upper(?1)")
-    fun findByNameLike(name: String): List<City>
+    fun findByNameLike(name: String, pageable: Pageable): Page<City>
 
     fun findByPopulation(population: Long): List<City>
 
