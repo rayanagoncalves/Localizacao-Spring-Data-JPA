@@ -1,46 +1,19 @@
 package io.github.rayanagoncalves.localizacao
 
-import io.github.rayanagoncalves.localizacao.domain.entities.City
-import io.github.rayanagoncalves.localizacao.repositories.CityRepository
+import io.github.rayanagoncalves.localizacao.services.CityService
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
-import org.springframework.transaction.annotation.Transactional
 
 @SpringBootApplication
-class LocalizacaoApplication(private val cityRepository: CityRepository) {
+class LocalizacaoApplication(private val cityService: CityService) {
 
 	@Bean
 	fun init(): CommandLineRunner {
 		return CommandLineRunner {
-		//	getCities()
-		//	getCitiesByName()
-		//	getCitiesByPopulation()
-			getCitiesByPopulationQuantity()
+			cityService.getCitiesByPopulationQuantity()
 		}
-	}
-
-	@Transactional
-	fun saveCity() {
-		val city = City(1L, "Recife", 1000L)
-		cityRepository.save(city)
-	}
-
-	fun getCities() {
-		cityRepository.findAll().forEach { println("Cidade: ${it.name}-${it.population}") }
-	}
-
-	fun getCitiesByName() {
-		cityRepository.findByNameLike("%fe").forEach { println("Cidade: ${it.name}-${it.population}") }
-	}
-
-	fun getCitiesByPopulation() {
-		cityRepository.findByPopulation(49585L).forEach { println("Cidade: ${it.name}-${it.population}") }
-	}
-
-	fun getCitiesByPopulationQuantity() {
-		cityRepository.findByPopulationLessThan(49593L).forEach { println("Cidade: ${it.name}-${it.population}") }
 	}
 }
 
