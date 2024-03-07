@@ -2,6 +2,8 @@ package io.github.rayanagoncalves.localizacao.services
 
 import io.github.rayanagoncalves.localizacao.domain.entities.City
 import io.github.rayanagoncalves.localizacao.repositories.CityRepository
+import org.springframework.data.domain.Example
+import org.springframework.data.domain.ExampleMatcher
 import org.springframework.data.domain.PageRequest
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -31,5 +33,13 @@ class CityService(
 
     fun getCitiesByPopulationQuantity() {
         cityRepository.findByPopulationLessThan(49593L).forEach { println("Cidade: ${it.name}-${it.population}") }
+    }
+
+    fun dynamicFilter(city: City): List<City> {
+        val exampleMatcher = ExampleMatcher.matching()
+            .withIgnoreCase("name")
+            .withStringMatcher(ExampleMatcher.StringMatcher.STARTING)
+        val example = Example.of(city, exampleMatcher)
+        return cityRepository.findAll(example)
     }
 }
