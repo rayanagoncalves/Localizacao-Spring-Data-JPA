@@ -14,8 +14,16 @@ interface CityRepository: JpaRepository<City, Long> {
 
     fun findByNameContaining(name: String): List<City>
 
-    @Query("select c from City where upper(c.name) like upper(?1)")
+    @Query("select c from City c where upper(c.name) like upper(?1)")
     fun findByNameLike(name: String): List<City>
 
     fun findByPopulation(population: Long): List<City>
+
+    fun findByPopulationLessThan(population: Long): List<City>
+
+    fun findByPopulationGreaterThan(population: Long): List<City>
+
+    fun findByPopulationLessThanEqual(population: Long): List<City>
+
+    fun findByPopulationLessThanAndNameLike(population: Long, name: String)
 }

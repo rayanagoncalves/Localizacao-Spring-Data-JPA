@@ -15,8 +15,9 @@ class LocalizacaoApplication(private val cityRepository: CityRepository) {
 	fun init(): CommandLineRunner {
 		return CommandLineRunner {
 		//	getCities()
-			getCitiesByName()
+		//	getCitiesByName()
 		//	getCitiesByPopulation()
+			getCitiesByPopulationQuantity()
 		}
 	}
 
@@ -36,6 +37,10 @@ class LocalizacaoApplication(private val cityRepository: CityRepository) {
 
 	fun getCitiesByPopulation() {
 		cityRepository.findByPopulation(49585L).forEach { println("Cidade: ${it.name}-${it.population}") }
+	}
+
+	fun getCitiesByPopulationQuantity() {
+		cityRepository.findByPopulationLessThan(49593L).forEach { println("Cidade: ${it.name}-${it.population}") }
 	}
 }
 
