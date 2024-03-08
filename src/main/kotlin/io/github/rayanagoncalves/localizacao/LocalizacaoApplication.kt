@@ -12,7 +12,7 @@ class LocalizacaoApplication(private val cityService: CityService) {
 	@Bean
 	fun init(): CommandLineRunner {
 		return CommandLineRunner {
-			cityService.getCitiesByPopulationQuantity()
+			cityService.getCitiesByNameSpec()
 		}
 	}
 }

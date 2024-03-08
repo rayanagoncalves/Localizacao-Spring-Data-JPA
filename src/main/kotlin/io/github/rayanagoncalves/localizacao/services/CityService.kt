@@ -2,6 +2,8 @@ package io.github.rayanagoncalves.localizacao.services
 
 import io.github.rayanagoncalves.localizacao.domain.entities.City
 import io.github.rayanagoncalves.localizacao.repositories.CityRepository
+import io.github.rayanagoncalves.localizacao.repositories.specs.CitySpec
+import io.github.rayanagoncalves.localizacao.repositories.specs.CitySpecs
 import org.springframework.data.domain.Example
 import org.springframework.data.domain.ExampleMatcher
 import org.springframework.data.domain.PageRequest
@@ -41,5 +43,10 @@ class CityService(
             .withStringMatcher(ExampleMatcher.StringMatcher.STARTING)
         val example = Example.of(city, exampleMatcher)
         return cityRepository.findAll(example)
+    }
+
+    fun getCitiesByNameSpec() {
+        val spec = CitySpecs.propertyEqual("name", "Recife").and(CitySpec.populationGreaterThan(1000L))
+        cityRepository.findAll(spec).forEach { println("Cidade: ${it.name}-${it.population}") }
     }
 }

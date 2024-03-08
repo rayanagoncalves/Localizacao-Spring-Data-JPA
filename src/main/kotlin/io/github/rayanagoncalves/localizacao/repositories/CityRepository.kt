@@ -4,9 +4,10 @@ import io.github.rayanagoncalves.localizacao.domain.entities.City
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor
 import org.springframework.data.jpa.repository.Query
 
-interface CityRepository: JpaRepository<City, Long> {
+interface CityRepository: JpaRepository<City, Long>, JpaSpecificationExecutor<City> {
 
     fun findByName(name: String): List<City>
 
