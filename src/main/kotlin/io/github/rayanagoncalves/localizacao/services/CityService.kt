@@ -2,13 +2,17 @@ package io.github.rayanagoncalves.localizacao.services
 
 import io.github.rayanagoncalves.localizacao.domain.entities.City
 import io.github.rayanagoncalves.localizacao.repositories.CityRepository
-import io.github.rayanagoncalves.localizacao.repositories.specs.CitySpec
 import io.github.rayanagoncalves.localizacao.repositories.specs.CitySpecs
+import jakarta.persistence.criteria.CriteriaBuilder
+import jakarta.persistence.criteria.CriteriaQuery
+import jakarta.persistence.criteria.Root
 import org.springframework.data.domain.Example
 import org.springframework.data.domain.ExampleMatcher
 import org.springframework.data.domain.PageRequest
+import org.springframework.data.jpa.domain.Specification
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.util.StringUtils
 
 @Service
 class CityService(
@@ -46,7 +50,26 @@ class CityService(
     }
 
     fun getCitiesByNameSpec() {
-        val spec = CitySpecs.propertyEqual("name", "Recife").and(CitySpec.populationGreaterThan(1000L))
+        val spec = CitySpecs.nameEqual("Recife").and(CitySpec.populationGreaterThan(1000L))
         cityRepository.findAll(spec).forEach { println("Cidade: ${it.name}-${it.population}") }
+    }
+
+    fun getCitiesSpecDynamicFilter(filter: City) {
+        var specs = Specification.where { root: Root<City?>?, query: CriteriaQuery<*>?, cb: CriteriaBuilder -> cb.conjunction() }
+        // select * from city where 1 = 1
+
+        if(filter.id != null) {
+            specs = specs.and(CitySpecs.idEqual(1L))
+        }
+
+        if(StringUtils.hasText(filter.name)) {
+            specs = specs.and(CitySpecs.nameLike(filter.name!!))
+        }
+
+        if(filter.population != null) {
+            specs = specs.and(CitySpecs.populationGreaterThan(filter.population!!))
+        }
+
+        cityRepository.findAll(specs).forEach { println("Cidade: ${it.name}-${it.population}") }
     }
 }

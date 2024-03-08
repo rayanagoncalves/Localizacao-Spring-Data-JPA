@@ -1,5 +1,6 @@
 package io.github.rayanagoncalves.localizacao
 
+import io.github.rayanagoncalves.localizacao.domain.entities.City
 import io.github.rayanagoncalves.localizacao.services.CityService
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -12,7 +13,8 @@ class LocalizacaoApplication(private val cityService: CityService) {
 	@Bean
 	fun init(): CommandLineRunner {
 		return CommandLineRunner {
-			cityService.getCitiesByNameSpec()
+			val city = City(1L, "Recife", 1000L)
+			cityService.getCitiesSpecDynamicFilter(city)
 		}
 	}
 }

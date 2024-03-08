@@ -5,7 +5,7 @@ import jakarta.persistence.criteria.CriteriaBuilder
 import jakarta.persistence.criteria.CriteriaQuery
 import jakarta.persistence.criteria.Root
 import org.springframework.data.jpa.domain.Specification
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
+import java.util.*
 
 abstract class CitySpecs {
 
@@ -20,11 +20,41 @@ abstract class CitySpecs {
             }
         }
 
+        fun idEqual(id: Long): Specification<City?> {
+            return Specification { root: Root<City?>, query: CriteriaQuery<*>, cb: CriteriaBuilder ->
+                cb.equal(
+                    root.get<Any>(
+                        "id"
+                    ), id
+                )
+            }
+        }
+
+        fun nameLike(name: String): Specification<City?>? {
+            return Specification { root: Root<City?>, query: CriteriaQuery<*>?, cb: CriteriaBuilder ->
+                cb.like(
+                    (
+                        root.get("name")
+                    ), "%$name%"
+                )
+            }
+        }
+
         fun populationGreaterThan(population: Long): Specification<City?>? {
             return Specification { root: Root<City?>, query: CriteriaQuery<*>?, cb: CriteriaBuilder ->
                 cb.greaterThan(
                     root.get("population"),
                     population
+                )
+            }
+        }
+
+        fun populationBetween(min: Long, max: Long): Specification<City?>? {
+            return Specification { root: Root<City?>, query: CriteriaQuery<*>?, cb: CriteriaBuilder ->
+                cb.between(
+                    root.get("population"),
+                    min,
+                    max
                 )
             }
         }
