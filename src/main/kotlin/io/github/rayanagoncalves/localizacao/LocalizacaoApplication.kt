@@ -14,7 +14,7 @@ class LocalizacaoApplication(private val cityService: CityService) {
 	fun init(): CommandLineRunner {
 		return CommandLineRunner {
 			val city = City(1L, "Recife", 1000L)
-			cityService.getCitiesSpecDynamicFilter(city)
+			cityService.getCitiesByNameSQL()
 		}
 	}
 }

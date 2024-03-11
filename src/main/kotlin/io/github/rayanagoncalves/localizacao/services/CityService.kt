@@ -50,7 +50,7 @@ class CityService(
     }
 
     fun getCitiesByNameSpec() {
-        val spec = CitySpecs.nameEqual("Recife").and(CitySpec.populationGreaterThan(1000L))
+        val spec = CitySpecs.nameEqual("Recife").and(CitySpecs.populationGreaterThan(1000L))
         cityRepository.findAll(spec).forEach { println("Cidade: ${it.name}-${it.population}") }
     }
 
@@ -71,5 +71,12 @@ class CityService(
         }
 
         cityRepository.findAll(specs).forEach { println("Cidade: ${it.name}-${it.population}") }
+    }
+
+    fun getCitiesByNameSQL() {
+        cityRepository
+            .findByNameSql("Recife")
+            .map { City(id = it.getId(), name = it.getName()) }
+            .forEach { println("${it.id}-${it.name}") }
     }
 }
